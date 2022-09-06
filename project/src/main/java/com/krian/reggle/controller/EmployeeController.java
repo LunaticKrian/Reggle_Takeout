@@ -16,6 +16,8 @@ import javax.servlet.http.HttpServletRequest;
 import java.nio.charset.StandardCharsets;
 import java.time.LocalDateTime;
 
+
+// 员工管理
 @Slf4j
 @RestController
 @RequestMapping("/employee")
@@ -117,7 +119,7 @@ public class EmployeeController {
         Page pageInfo = new Page(page, pageSize);
 
         // 构建条件构造器：
-        LambdaQueryWrapper<Employee> queryWrapper = new LambdaQueryWrapper();
+        LambdaQueryWrapper<Employee> queryWrapper = new LambdaQueryWrapper<>();
 
         // 添加过滤条件：
         queryWrapper.like(StringUtils.isNotEmpty(name), Employee::getName, pageInfo);
@@ -140,8 +142,8 @@ public class EmployeeController {
     public R<String> update(HttpServletRequest request, @RequestBody Employee employee) {
         log.info("调用更新，更新员工信息：{}", employee);
 
-        employee.setUpdateUser((long) request.getSession().getAttribute("employee"));
-        employee.setUpdateTime(LocalDateTime.now());
+        // employee.setUpdateUser((long) request.getSession().getAttribute("employee"));
+        // employee.setUpdateTime(LocalDateTime.now());
 
         employeeService.updateById(employee);
 
