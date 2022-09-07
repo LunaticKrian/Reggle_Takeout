@@ -6,7 +6,6 @@ import com.krian.reggle.common.R;
 import com.krian.reggle.entity.Category;
 import com.krian.reggle.service.CategoryService;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.tomcat.util.buf.UDecoder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -60,14 +59,23 @@ public class CategoryController {
 
     /**
      * @Func 删除分类信息
-     * @param id
+     * @param ids
      * @return
      */
     @DeleteMapping
-    public R<String> delete(Long id){
-        log.info("删除分类，分类ID：{}", id);
+    public R<String> delete(Long ids){
+        log.info("删除分类，分类ID：{}", ids);
 
-        categoryService.removeById(id);
+        // categoryService.removeById(id);
+        categoryService.remove(ids);
         return R.success("分类信息删除成功！");
+    }
+
+    @PutMapping
+    public R<String> update(@RequestBody Category category){
+        log.info("修改分类信息数据：{}", category);
+
+        categoryService.updateById(category);
+        return R.success("修改分类信息成功！");
     }
 }
