@@ -7,6 +7,8 @@ import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
 
+// TODO:项目重新启动，由于线程处理快慢问题，可能导致出现自动数据填充出现异常！！！
+
 // 自定义元数据对象处理器：
 @Component
 @Slf4j

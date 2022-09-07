@@ -36,6 +36,7 @@ public class LoginCheckFilter implements Filter {
                 "/employee/logout",
                 "/backend/**",          // 后台静态资源
                 "/front/**"             // 前台静态资源
+                ,"/common/**"
         };
 
         // 3.判断请求路径是否需要处理：

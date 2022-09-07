@@ -22,3 +22,7 @@ mybatis-plus:
   global-config:
     db-config:
       id-type: ASSIGN_ID
+
+# 项目的自定义配置文件：
+reggle:
+  save-upload-file-path: E:\reggle_take_out\project\src\main\resources\data\uploadfile\
