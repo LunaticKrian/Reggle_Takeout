@@ -118,6 +118,25 @@ public class DishController {
         return R.success("修改菜品成功！");
     }
 
+    /**
+     * @param dish
+     * @return R
+     * @Func 根据条件查询对应的菜品数据
+     */
+    @GetMapping("/list")
+    public R<List<Dish>> list(Dish dish) {
+        // 构造查询条件：
+        LambdaQueryWrapper<Dish> queryWrapper = new LambdaQueryWrapper<>();
+        queryWrapper.eq(dish.getCategoryId() != null, Dish::getCategoryId, dish.getCategoryId());
+        queryWrapper.eq(Dish::getStatus, 1);  // 添加查询状态为1（起售状态）的菜品
+        // 添加排序条件：
+        queryWrapper.orderByAsc(Dish::getSort).orderByAsc(Dish::getUpdateTime);
+        // 执行查询：
+        List<Dish> list = dishService.list(queryWrapper);
+
+        return R.success(list);
+    }
+
     // TODO:菜品的删除
 
     // TODO:菜品的停售
