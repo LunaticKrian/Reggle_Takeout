@@ -34,9 +34,12 @@ public class LoginCheckFilter implements Filter {
         String[] urls = new String[]{
                 "/employee/login",
                 "/employee/logout",
+                "/user/login",
+                "/user/logout",
+                "/user/sendMsg",
                 "/backend/**",          // 后台静态资源
-                "/front/**"             // 前台静态资源
-                ,"/common/**"
+                "/front/**",            // 前台静态资源
+                "/common/**"
         };
 
         // 3.判断请求路径是否需要处理：
@@ -52,23 +55,31 @@ public class LoginCheckFilter implements Filter {
         log.info("{} 请求开始处理！", requestURI);
 
         // 4.2 需要处理，判断用户是否已经登陆，如果登陆则放行：
-        if (request.getSession().getAttribute("employee") != null) {
+        if (request.getSession().getAttribute("employee") != null) {  // PC浏览器登陆
             log.info("当前用户已登录！");
             filterChain.doFilter(request, response);  // 放行请求
 
             // 获取Session中的员工ID：
-            Long empId = (long)request.getSession().getAttribute("employee");
+            Long empId = (long) request.getSession().getAttribute("employee");
 
             // 向ThreadLocal中添加数据员工ID：
             BaseContext.setCurrentId(empId);
 
+        } else if (request.getSession().getAttribute("user") != null) {  // 移动端用户登陆
+            log.info("当前用户已登录！");
+            filterChain.doFilter(request, response);  // 放行请求
+
+            // 获取Session中的员工ID：
+            Long userId = (long) request.getSession().getAttribute("user");
+
+            // 向ThreadLocal中添加数据员工ID：
+            BaseContext.setCurrentId(userId);
         } else {
             log.info("当前用户未登录！");
             // 把JSON数据写给前端：
             response.getWriter().write(JSON.toJSONString(R.error("NOTLOGIN")));
         }
     }
-
 
     /**
      * @param urls,requestURI
